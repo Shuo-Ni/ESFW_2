@@ -94,3 +94,72 @@ bool CheckTestTimer(void)
   }
   return false;
 }
+#include "C:\Users\15263\Documents\GitHub\ESFW_2\src\ProjectHeaders\RadioConTrolService.h"
+
+// 按钮引脚定义 - 根据您的实际硬件修改
+#define BUTTON1_PIN 2    // 模式切换按钮
+#define BUTTON2_PIN 3    // 发送按钮
+
+// 按钮对象
+Bounce button1 = Bounce(BUTTON1_PIN, 10);
+Bounce button2 = Bounce(BUTTON2_PIN, 10);
+
+/****************************************************************************
+ Function
+    CheckModeShiftButton
+****************************************************************************/
+bool CheckModeShiftButton(void) {
+    static bool initialized = false;
+    
+    // 首次调用时初始化按钮
+    if (!initialized) {
+        pinMode(BUTTON1_PIN, INPUT_PULLUP);
+        initialized = true;
+    }
+    
+    // 更新按钮状态
+    button1.update();
+    
+    // 检测按钮按下（下降沿）
+    if (button1.fallingEdge()) {
+        ES_Event_t ThisEvent;
+        ThisEvent.EventType = ES_MODE_SHIFT;
+        ThisEvent.EventParam = 0;
+        
+        // 发布到无线遥控服务
+        PostRadioControlService(ThisEvent);
+        return true;
+    }
+    
+    return false;
+}
+
+/****************************************************************************
+ Function
+    CheckSendButton
+****************************************************************************/
+bool CheckSendButton(void) {
+    static bool initialized = false;
+    
+    // 首次调用时初始化按钮
+    if (!initialized) {
+        pinMode(BUTTON2_PIN, INPUT_PULLUP);
+        initialized = true;
+    }
+    
+    // 更新按钮状态
+    button2.update();
+    
+    // 检测按钮按下（下降沿）
+    if (button2.fallingEdge()) {
+        ES_Event_t ThisEvent;
+        ThisEvent.EventType = ES_SEND;
+        ThisEvent.EventParam = 0;
+        
+        // 发布到无线遥控服务
+        PostRadioControlService(ThisEvent);
+        return true;
+    }
+    
+    return false;
+}

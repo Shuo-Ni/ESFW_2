@@ -10,6 +10,7 @@
             "includePath": [
                 "C:/Users/15263/Documents/GitHub/ESFW_2/include",
                 "C:/Users/15263/Documents/GitHub/ESFW_2/src",
+                "C:/Users/15263/Documents/GitHub/ESFW_2/lib/EByte_LoRa_A28_Series_Library-master",
                 "C:/Users/15263/.platformio/packages/framework-arduinoteensy/libraries/Bounce",
                 "C:/Users/15263/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                 "C:/Users/15263/Documents/GitHub/ESFW_2/.pio/libdeps/teensy40/Adafruit BusIO",
@@ -121,6 +122,7 @@
                 "path": [
                     "C:/Users/15263/Documents/GitHub/ESFW_2/include",
                     "C:/Users/15263/Documents/GitHub/ESFW_2/src",
+                    "C:/Users/15263/Documents/GitHub/ESFW_2/lib/EByte_LoRa_A28_Series_Library-master",
                     "C:/Users/15263/.platformio/packages/framework-arduinoteensy/libraries/Bounce",
                     "C:/Users/15263/.platformio/packages/framework-arduinoteensy/cores/teensy4",
                     "C:/Users/15263/Documents/GitHub/ESFW_2/.pio/libdeps/teensy40/Adafruit BusIO",

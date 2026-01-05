@@ -69,5 +69,13 @@ void setup()
 
 void loop() 
 {
-  // put your main code here, to run repeatedly:
+  Serial.begin(9600);
+  Serial.println("=== Starting Wireless Remote Control System ===");
+  
+  // 初始化Serial4用于LoRa通信
+  Serial4.begin(9600);
+  
+  // 其他硬件初始化...
+  
+  ES_Return_t ErrorType = ES_Initialize();
 }

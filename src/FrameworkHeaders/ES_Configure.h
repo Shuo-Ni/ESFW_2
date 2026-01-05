@@ -35,7 +35,7 @@
 /****************************************************************************/
 // This macro determines that nuber of services that are *actually* used in
 // a particular application. It will vary in value from 1 to MAX_NUM_SERVICES
-#define NUM_SERVICES 1
+#define NUM_SERVICES 2
 
 /****************************************************************************/
 // These are the definitions for Service 0, the lowest priority service.
@@ -59,13 +59,13 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "TestHarnessService1.h"
+#define SERV_1_HEADER "C:/Users/15263/Documents/GitHub/ESFW_2/src/ProjectHeaders/RadioConTrolService.h"
 // the name of the Init function
-#define SERV_1_INIT InitTestHarnessService1
+#define SERV_1_INIT InitRadioControlService
 // the name of the run function
-#define SERV_1_RUN RunTestHarnessService1
+#define SERV_1_RUN RunRadioControlService
 // How big should this services Queue be?
-#define SERV_1_QUEUE_SIZE 3
+#define SERV_1_QUEUE_SIZE 5
 #endif
 
 /****************************************************************************/
@@ -266,7 +266,10 @@ typedef enum
   ES_NEW_KEY, 
   ES_EntButton,
   ES_TestTimer,
-  ES_LOCK
+  ES_LOCK,
+  /* 添加新的事件类型 */
+  ES_MODE_SHIFT,    // 模式切换事件
+  ES_SEND           // 发送事件
 }ES_EventType_t;
 
 /****************************************************************************/
@@ -304,7 +307,9 @@ typedef enum
 #define EVENT_CHECK_LIST \
 Check4Keystroke, \
 CheckEntButton, \
-CheckTestTimer
+CheckTestTimer, \
+CheckModeShiftButton, \
+CheckSendButton
 
 /****************************************************************************/
 

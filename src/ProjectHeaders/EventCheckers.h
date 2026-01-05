@@ -27,5 +27,8 @@
 bool Check4Keystroke(void);
 bool CheckEntButton(void);
 bool CheckTestTimer(void);
+// 按钮检查函数声明
+bool CheckModeShiftButton(void);
+bool CheckSendButton(void);
 
 #endif /* EventCheckers_H */
