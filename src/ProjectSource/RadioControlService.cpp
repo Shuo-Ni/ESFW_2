@@ -4,12 +4,12 @@
 #include "../FrameworkHeaders/ES_Framework.h"
 #include "C:\Users\15263\Documents\GitHub\ESFW_2\lib\EByte_LoRa_A28_Series_Library-master\LoRa_A28.h"
 
-// 引脚定义
+// Pin Definition
 #define LORA_AUX_PIN  15
 #define LORA_M0_PIN   19  
 #define LORA_M1_PIN   18
 
-// 模式配置
+// Mode Configuration
 static const uint8_t ModeSequence[] = {MODE_A, MODE_B, ACTION, STOP, CHECK_A_MODE};
 static const char* ModeNames[] = {"ModeA", "ModeB", "Action", "Stop", "CheckAMode"};
 #define NUM_MODES 5
@@ -28,7 +28,7 @@ bool InitRadioControlService(uint8_t Priority) {
     
     Serial.println("=== RadioControlService Initialization ===");
     
-    // 初始化LoRa模块
+    // Initialize the LoRa module
     loraModule = new LoRa_A28(&Serial4, LORA_AUX_PIN, LORA_M0_PIN, LORA_M1_PIN);
     
     if (loraModule->begin()) 
@@ -41,7 +41,7 @@ bool InitRadioControlService(uint8_t Priority) {
         return false;
     }
     
-    // 初始化当前模式
+    // Initialize the current mode
     CurrentModeIndex = 0;
     CurrentMessage.Message = ModeSequence[CurrentModeIndex];
     CurrentMessage.var1 = 0x00;
@@ -68,10 +68,10 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
     ES_Event_t ReturnEvent;
     ReturnEvent.EventType = ES_NO_EVENT;
     ReturnEvent.EventParam = 0;
-    // 事件判断
+    // Event Judgment
     if (ThisEvent.EventType == ES_MODE_SHIFT) 
     {
-        // 模式切换部分
+        // Mode Switching Section
        CurrentModeIndex++;
             if(CurrentModeIndex>=5)
             {
@@ -84,7 +84,7 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
         
     } else if (ThisEvent.EventType == ES_SEND) 
     {
-        // 发送处理部分
+        // Send Processing Section
         if (loraModule != nullptr) {
             Serial.print("Sending:");
             Serial.print(ModeNames[CurrentModeIndex]);
