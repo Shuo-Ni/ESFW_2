@@ -51,9 +51,9 @@ CustomTimer TestTimer;
 #include <Bounce.h>
 #include "C:\Users\15263\Documents\GitHub\ESFW_2\src\ProjectHeaders\RadioConTrolService.h"
 
-// 按钮引脚定义 
-#define BUTTON1_PIN 2    // 模式切换按钮
-#define BUTTON2_PIN 3    // 发送按钮
+// Button Pin Definition
+#define BUTTON1_PIN 2    // Mode switch button
+#define BUTTON2_PIN 3    // Send Button
 Bounce button1 = Bounce(BUTTON1_PIN, 10);
 Bounce button2 = Bounce(BUTTON2_PIN, 10);
 
@@ -62,21 +62,21 @@ bool CheckModeShiftButton(void)
 {
     static bool initialized = false;
     
-    // 初始化按钮
+    // Initialize Button
     if (!initialized) 
     {
         pinMode(BUTTON1_PIN, INPUT_PULLUP);
         initialized = true;
     }
-    // 更新按钮状态
+    // Update Button Status
     button1.update();
-    // 检测按钮按下（下降沿）
+    // Detection button pressed (falling edge)
     if (button1.fallingEdge()) 
     {
         ES_Event_t ThisEvent;
         ThisEvent.EventType = ES_MODE_SHIFT;
         ThisEvent.EventParam = 0;
-        // 发布到无线遥控服务
+        // Publish to Wireless Remote Control Service
         PostRadioControlService(ThisEvent);
         return true;
     }
@@ -89,22 +89,22 @@ bool CheckSendButton(void)
  {
     static bool initialized = false;
     
-    // 首次调用时初始化按钮
+    // Initialize button
     if (!initialized) {
         pinMode(BUTTON2_PIN, INPUT_PULLUP);
         initialized = true;
     }
     
-    // 更新按钮状态（使用Arduino库的bounce）
+    // Update button status (using the Arduino library's Bounce)
     button2.update();
     
-    // 检测按钮按下下降沿（使用Arduino库的bounce）
+    // Detect button press falling edge
     if (button2.fallingEdge()) 
     {
         ES_Event_t ThisEvent;
         ThisEvent.EventType = ES_SEND;
         ThisEvent.EventParam = 0;
-        // 使用Post函数发布到无线遥控服务
+        // Use the Post function to publish to the wireless remote control service
         PostRadioControlService(ThisEvent);
         return true;
     }
