@@ -26,8 +26,8 @@
 
 typedef struct ES_Event
 {
-  ES_EventType_t EventType;      // what kind of event?
-  uint16_t EventParam;          // parameter value for use w/ this event
+  ES_EventType_t EventType;      // 事件类型，也就是是什么活动
+  uint16_t EventParam;          // 这个事件的参数值（枚举定义过）
 }ES_Event_t;
 
 #endif /* ES_Events_H */

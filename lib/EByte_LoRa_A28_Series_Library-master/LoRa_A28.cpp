@@ -444,8 +444,8 @@ FixedStransmission *init_stack(int m){
 
 
 ResponseStatus LoRa_A28::sendMessage(const void *message, const uint8_t size){
-	Serial.println("mode:");
-	Serial.println((MODE_TYPE)(this->mode));
+	//Serial.println("mode:");
+	//Serial.println((MODE_TYPE)(this->mode));
 	ResponseStatus status;
 	status.code = this->sendStruct((uint8_t *)message, size);
 	if (status.code!=A28_SUCCESS) return status;

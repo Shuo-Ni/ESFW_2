@@ -75,7 +75,6 @@ void loop()
   // 初始化Serial4用于LoRa通信
   Serial4.begin(9600);
   
-  // 其他硬件初始化...
-  
-  ES_Return_t ErrorType = ES_Initialize();
+  // 硬件初始化
+  ES_Initialize();
 }

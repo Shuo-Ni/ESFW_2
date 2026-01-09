@@ -65,7 +65,7 @@
 // the name of the run function
 #define SERV_1_RUN RunRadioControlService
 // How big should this services Queue be?
-#define SERV_1_QUEUE_SIZE 5
+#define SERV_1_QUEUE_SIZE 3
 #endif
 
 /****************************************************************************/
@@ -305,9 +305,6 @@ typedef enum
 /****************************************************************************/
 // This is the list of event checking functions
 #define EVENT_CHECK_LIST \
-Check4Keystroke, \
-CheckEntButton, \
-CheckTestTimer, \
 CheckModeShiftButton, \
 CheckSendButton
 

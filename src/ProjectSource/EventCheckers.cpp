@@ -49,83 +49,33 @@ CustomTimer TestTimer;
 
 // hardware libraries
 #include <Bounce.h>
-
-// initialize button object
-Bounce entButton = Bounce(entButtonPin, 100);
-
-bool Check4Keystroke(void)
-{
-  if (Serial.available())   // new key waiting?
-  {
-    ES_Event_t ThisEvent;
-    ThisEvent.EventType   = ES_NEW_KEY;
-    ThisEvent.EventParam  = Serial.read();
-    ES_PostAll(ThisEvent);
-    return true;
-  }
-  return false;
-}
-
-bool CheckEntButton(void)
-{
-  if (entButton.update())
-  {
-    if (entButton.fallingEdge())
-    {
-      ES_Event_t ThisEvent;
-      ThisEvent.EventType = ES_EntButton;
-      PostTestHarnessService0(ThisEvent);
-      Serial.println("Event Checker: enter button");
-      return true;
-    }
-  }
-  return false;
-}
-
-bool CheckTestTimer(void)
-{
-  if (TestTimer.check())
-  {
-    ES_Event_t ThisEvent;
-    ThisEvent.EventType = ES_TestTimer;
-    PostTestHarnessService0(ThisEvent);
-    Serial.println("Event Checker: timer expire");
-    return true;
-  }
-  return false;
-}
 #include "C:\Users\15263\Documents\GitHub\ESFW_2\src\ProjectHeaders\RadioConTrolService.h"
 
-// 按钮引脚定义 - 根据您的实际硬件修改
+// 按钮引脚定义 
 #define BUTTON1_PIN 2    // 模式切换按钮
 #define BUTTON2_PIN 3    // 发送按钮
-
-// 按钮对象
 Bounce button1 = Bounce(BUTTON1_PIN, 10);
 Bounce button2 = Bounce(BUTTON2_PIN, 10);
 
-/****************************************************************************
- Function
-    CheckModeShiftButton
-****************************************************************************/
-bool CheckModeShiftButton(void) {
+
+bool CheckModeShiftButton(void) 
+{
     static bool initialized = false;
     
-    // 首次调用时初始化按钮
-    if (!initialized) {
+    // 初始化按钮
+    if (!initialized) 
+    {
         pinMode(BUTTON1_PIN, INPUT_PULLUP);
         initialized = true;
     }
-    
     // 更新按钮状态
     button1.update();
-    
     // 检测按钮按下（下降沿）
-    if (button1.fallingEdge()) {
+    if (button1.fallingEdge()) 
+    {
         ES_Event_t ThisEvent;
         ThisEvent.EventType = ES_MODE_SHIFT;
         ThisEvent.EventParam = 0;
-        
         // 发布到无线遥控服务
         PostRadioControlService(ThisEvent);
         return true;
@@ -134,11 +84,9 @@ bool CheckModeShiftButton(void) {
     return false;
 }
 
-/****************************************************************************
- Function
-    CheckSendButton
-****************************************************************************/
-bool CheckSendButton(void) {
+
+bool CheckSendButton(void)
+ {
     static bool initialized = false;
     
     // 首次调用时初始化按钮
@@ -147,16 +95,16 @@ bool CheckSendButton(void) {
         initialized = true;
     }
     
-    // 更新按钮状态
+    // 更新按钮状态（使用Arduino库的bounce）
     button2.update();
     
-    // 检测按钮按下（下降沿）
-    if (button2.fallingEdge()) {
+    // 检测按钮按下下降沿（使用Arduino库的bounce）
+    if (button2.fallingEdge()) 
+    {
         ES_Event_t ThisEvent;
         ThisEvent.EventType = ES_SEND;
         ThisEvent.EventParam = 0;
-        
-        // 发布到无线遥控服务
+        // 使用Post函数发布到无线遥控服务
         PostRadioControlService(ThisEvent);
         return true;
     }
