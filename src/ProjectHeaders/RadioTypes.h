@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// 遥控消息类型枚举
+// Remote Control Message Type Enumeration
 typedef enum {
     MODE_A = 0x01,
     MODE_B = 0x02,  
@@ -12,7 +12,7 @@ typedef enum {
     CHECK_A_MODE = 0x05
 } RadioMessageType_t;
 
-// 遥控消息结构体
+// Remote Control Message Structure
 struct RadioMessage {
     uint8_t Message;
     uint8_t var1;
