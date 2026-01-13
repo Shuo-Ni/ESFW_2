@@ -60,14 +60,6 @@ Bounce button2 = Bounce(BUTTON2_PIN, 10);
 
 bool CheckModeShiftButton(void) 
 {
-    static bool initialized = false;
-    
-    // Initialize Button
-    if (!initialized) 
-    {
-        pinMode(BUTTON1_PIN, INPUT_PULLUP);
-        initialized = true;
-    }
     // Update Button Status
     button1.update();
     // Detection button pressed (falling edge)
@@ -87,13 +79,6 @@ bool CheckModeShiftButton(void)
 
 bool CheckSendButton(void)
  {
-    static bool initialized = false;
-    
-    // Initialize button
-    if (!initialized) {
-        pinMode(BUTTON2_PIN, INPUT_PULLUP);
-        initialized = true;
-    }
     
     // Update button status (using the Arduino library's Bounce)
     button2.update();
