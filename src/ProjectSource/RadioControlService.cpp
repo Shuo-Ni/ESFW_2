@@ -21,99 +21,9 @@ static uint8_t MyPriority;
 static uint8_t CurrentModeIndex = 0;
 static RadioMessage CurrentMessage;
 static LoRa_A28* loraModule = nullptr;
-static ES_Event_t State_A(ES_Event_t ThisEvent);
-static ES_Event_t State_B(ES_Event_t ThisEvent);
-static ES_Event_t State_Action(ES_Event_t ThisEvent);
-static ES_Event_t State_Stop(ES_Event_t ThisEvent);
-static ES_Event_t State_CheckAMode(ES_Event_t ThisEvent);
-static ES_Event_t Event_handling(ES_Event_t ThisEvent);
-
-static ES_Event_t State_A(ES_Event_t ThisEvent)
-{
-ES_Event_t ReturnEvent = ThisEvent; 
-    Event_handling(ThisEvent);
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent;
-}
 
 
-static ES_Event_t State_B(ES_Event_t ThisEvent)
-{
-ES_Event_t ReturnEvent = ThisEvent; 
-    Event_handling(ThisEvent);
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent; 
-}
 
-
-static ES_Event_t State_Action(ES_Event_t ThisEvent)
-{
-ES_Event_t ReturnEvent = ThisEvent; 
-    Event_handling(ThisEvent);
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent;  
-}
-
-
-static ES_Event_t State_Stop(ES_Event_t ThisEvent)
-{
-ES_Event_t ReturnEvent = ThisEvent; 
-    Event_handling(ThisEvent);
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent; 
-}
-
-
-static ES_Event_t State_CheckAMode(ES_Event_t ThisEvent)
-{
-ES_Event_t ReturnEvent = ThisEvent; 
-    Event_handling(ThisEvent);
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent;  
-}
-
-
-static ES_Event_t Event_handling(ES_Event_t ThisEvent)
-{
-    ES_Event_t ReturnEvent = ThisEvent; 
-if (ThisEvent.EventType == ES_MODE_SHIFT) 
-    {
-        // Mode Switching Section
-       CurrentModeIndex++;
-            if(CurrentModeIndex>=5)
-            {
-                CurrentModeIndex=0;
-            }
-            CurrentMessage.Message = NowState[CurrentModeIndex];
-            
-            Serial.print("Mode changed to:");
-            Serial.println(ModeNames[CurrentModeIndex]);
-        
-    } else if (ThisEvent.EventType == ES_SEND) 
-    {
-        // Send Processing Section
-        if (loraModule != nullptr) {
-            Serial.print("Sending:");
-            Serial.print(ModeNames[CurrentModeIndex]);
-            ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
-            Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
-        }
-    }
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
-    
-    return ReturnEvent;  
-}
 /****************************************************************************
  Function
      InitRadioControlService
@@ -162,30 +72,182 @@ bool PostRadioControlService(ES_Event_t ThisEvent) {
 ****************************************************************************/
 ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
     ES_Event_t ReturnEvent;
-    ReturnEvent.EventType = ES_NO_EVENT;
-    ReturnEvent.EventParam = 0;
     // Event Judgment
     switch (NowState[CurrentModeIndex])
     {
-    case ModeA:
-        State_A(ThisEvent);
+        case ModeA:
+            switch (ThisEvent.EventType)
+            {
+
+                case ES_MODE_SHIFT:
+                // Mode Switching Section
+                CurrentModeIndex++;
+                if(CurrentModeIndex>=5)
+                {
+                CurrentModeIndex=0;
+                }
+                CurrentMessage.Message = NowState[CurrentModeIndex];
+
+                Serial.print("Mode changed to:");
+                Serial.println(ModeNames[CurrentModeIndex]);
+                break;
+
+                case ES_SEND:
+                // Send Processing Section
+                if (loraModule != nullptr) {
+                Serial.print("Sending:");
+                Serial.print(ModeNames[CurrentModeIndex]);
+                ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
+                Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
+                }
+                break;
+            default:
+            break;
+            }
         break;
-    case ModeB:
-        State_B(ThisEvent);
+
+
+        case ModeB:
+            switch(ThisEvent.EventType)
+            {
+
+                case ES_MODE_SHIFT:
+
+                // Mode Switching Section
+                CurrentModeIndex++;
+                if(CurrentModeIndex>=5)
+                {
+                CurrentModeIndex=0;
+                }
+                CurrentMessage.Message = NowState[CurrentModeIndex];
+
+                Serial.print("Mode changed to:");
+                Serial.println(ModeNames[CurrentModeIndex]);
+                break;
+
+                case ES_SEND:
+
+                // Send Processing Section
+                if (loraModule != nullptr) {
+                Serial.print("Sending:");
+                Serial.print(ModeNames[CurrentModeIndex]);
+                ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
+                Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
+                }
+                break;
+            default:
+            break;
+            }
         break;
-    case Action:
-        State_Action(ThisEvent);
+        
+
+        case Action:
+            switch(ThisEvent.EventType)
+            {
+
+                case ES_MODE_SHIFT:
+
+                // Mode Switching Section
+                CurrentModeIndex++;
+                if(CurrentModeIndex>=5)
+                {
+                CurrentModeIndex=0;
+                }
+                CurrentMessage.Message = NowState[CurrentModeIndex];
+
+                Serial.print("Mode changed to:");
+                Serial.println(ModeNames[CurrentModeIndex]);
+                break;
+
+                case ES_SEND:
+
+                // Send Processing Section
+                if (loraModule != nullptr) {
+                Serial.print("Sending:");
+                Serial.print(ModeNames[CurrentModeIndex]);
+                ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
+                Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
+                }
+                break;
+            default:
+            break;
+            }
         break;
-    case Stop:
-        State_Stop(ThisEvent);
+        
+
+        case Stop:
+            switch(ThisEvent.EventType)
+            {
+
+                case ES_MODE_SHIFT:
+
+                // Mode Switching Section
+                CurrentModeIndex++;
+                if(CurrentModeIndex>=5)
+                {
+                CurrentModeIndex=0;
+                }
+                CurrentMessage.Message = NowState[CurrentModeIndex];
+
+                Serial.print("Mode changed to:");
+                Serial.println(ModeNames[CurrentModeIndex]);
+                break;
+
+                case ES_SEND:
+
+                // Send Processing Section
+                if (loraModule != nullptr) {
+                Serial.print("Sending:");
+                Serial.print(ModeNames[CurrentModeIndex]);
+                ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
+                Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
+                }
+                break;
+            default:
+            break;
+            }
         break;
-    case Check_A_Mode:
-        State_CheckAMode(ThisEvent);
+        
+
+        case Check_A_Mode:
+            switch(ThisEvent.EventType)
+            {
+
+                case ES_MODE_SHIFT:
+
+                // Mode Switching Section
+                CurrentModeIndex++;
+                if(CurrentModeIndex>=5)
+                {
+                CurrentModeIndex=0;
+                }
+                CurrentMessage.Message = NowState[CurrentModeIndex];
+
+                Serial.print("Mode changed to:");
+                Serial.println(ModeNames[CurrentModeIndex]);
+                break;
+
+                case ES_SEND:
+
+                // Send Processing Section
+                if (loraModule != nullptr) {
+                Serial.print("Sending:");
+                Serial.print(ModeNames[CurrentModeIndex]);
+                ResponseStatus result = loraModule->sendMessage(&CurrentMessage, sizeof(CurrentMessage));
+                Serial.println(result.code == A28_SUCCESS ? "  OK" : "  FAIL");
+                }
+                break;
+            default:
+            break;
+            }
         break;
+    
     
     default:
         break;
     }
+    ReturnEvent.EventType = ES_NO_EVENT;
+    ReturnEvent.EventParam = 0;
     return ReturnEvent;
 
 }
