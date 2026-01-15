@@ -1,20 +1,20 @@
 #include <Arduino.h>
-#include "C:\Users\15263\Documents\GitHub\ESFW_2\src\ProjectHeaders\RadioConTrolService.h"
+#include "../ProjectHeaders/RadioConTrolService.h"
 #include "../ProjectHeaders/RadioTypes.h"
 #include "../FrameworkHeaders/ES_Framework.h"
-#include "C:\Users\15263\Documents\GitHub\ESFW_2\lib\EByte_LoRa_A28_Series_Library-master\LoRa_A28.h"
+#include "../EByte_LoRa_A28_Series_Library-master/LoRa_A28.h"
 #include <Bounce.h>
 
 // Pin Definition
 #define LORA_AUX_PIN  15
 #define LORA_M0_PIN   19  
 #define LORA_M1_PIN   18
-#define BUTTON1_PIN 2    // Mode switch button
-#define BUTTON2_PIN 3    // Send Button
+#define BUTTON1_PIN   2    // Mode switch button
+#define BUTTON2_PIN   3    // Send Button
 
 // Mode Configuration
 static const char* ModeNames[] = {"ModeA", "ModeB", "Action", "Stop", "CheckAMode"};
-RadioState_t NowState[] = {ModeA,ModeB,Action,Stop,Check_A_Mode};
+RadioState_t NowState;
 #define NUM_MODES 5
 
 static uint8_t MyPriority;
@@ -49,7 +49,8 @@ bool InitRadioControlService(uint8_t Priority) {
     
     // Initialize the current mode
     CurrentModeIndex = 0;
-    CurrentMessage.Message = NowState[CurrentModeIndex];
+    NowState = ModeA;
+    CurrentMessage.Message = NowState;
     CurrentMessage.var1 = 0x00;
     
     Serial.print(" Initial mode: ");
@@ -73,7 +74,7 @@ bool PostRadioControlService(ES_Event_t ThisEvent) {
 ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
     ES_Event_t ReturnEvent;
     // Event Judgment
-    switch (NowState[CurrentModeIndex])
+    switch (NowState)
     {
         case ModeA:
             switch (ThisEvent.EventType)
@@ -86,7 +87,8 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
                 {
                 CurrentModeIndex=0;
                 }
-                CurrentMessage.Message = NowState[CurrentModeIndex];
+                NowState = ModeB;
+                CurrentMessage.Message = NowState;
 
                 Serial.print("Mode changed to:");
                 Serial.println(ModeNames[CurrentModeIndex]);
@@ -119,8 +121,8 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
                 {
                 CurrentModeIndex=0;
                 }
-                CurrentMessage.Message = NowState[CurrentModeIndex];
-
+                NowState = Action;
+                CurrentMessage.Message = NowState;
                 Serial.print("Mode changed to:");
                 Serial.println(ModeNames[CurrentModeIndex]);
                 break;
@@ -153,7 +155,8 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
                 {
                 CurrentModeIndex=0;
                 }
-                CurrentMessage.Message = NowState[CurrentModeIndex];
+                NowState = Stop;
+                CurrentMessage.Message = NowState;
 
                 Serial.print("Mode changed to:");
                 Serial.println(ModeNames[CurrentModeIndex]);
@@ -187,7 +190,8 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
                 {
                 CurrentModeIndex=0;
                 }
-                CurrentMessage.Message = NowState[CurrentModeIndex];
+                NowState = Check_A_Mode;
+                CurrentMessage.Message = NowState;
 
                 Serial.print("Mode changed to:");
                 Serial.println(ModeNames[CurrentModeIndex]);
@@ -221,7 +225,8 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
                 {
                 CurrentModeIndex=0;
                 }
-                CurrentMessage.Message = NowState[CurrentModeIndex];
+                NowState = ModeA;
+                CurrentMessage.Message = NowState;
 
                 Serial.print("Mode changed to:");
                 Serial.println(ModeNames[CurrentModeIndex]);

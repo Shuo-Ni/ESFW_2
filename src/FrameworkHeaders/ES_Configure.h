@@ -59,7 +59,7 @@
 // These are the definitions for Service 1
 #if NUM_SERVICES > 1
 // the header file with the public function prototypes
-#define SERV_1_HEADER "C:/Users/15263/Documents/GitHub/ESFW_2/src/ProjectHeaders/RadioConTrolService.h"
+#define SERV_1_HEADER "../ProjectHeaders/RadioConTrolService.h"
 // the name of the Init function
 #define SERV_1_INIT InitRadioControlService
 // the name of the run function
