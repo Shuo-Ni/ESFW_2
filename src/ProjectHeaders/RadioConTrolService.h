@@ -15,5 +15,5 @@ typedef enum {
 bool InitRadioControlService(uint8_t Priority);
 bool PostRadioControlService(ES_Event_t ThisEvent);
 ES_Event_t RunRadioControlService(ES_Event_t ThisEvent);
-
+bool CheckRadio(void);
 #endif

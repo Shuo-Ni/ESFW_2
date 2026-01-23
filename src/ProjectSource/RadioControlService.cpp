@@ -74,6 +74,9 @@ bool PostRadioControlService(ES_Event_t ThisEvent) {
 ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
     ES_Event_t ReturnEvent;
     // Event Judgment
+
+    if(CheckRadio()==0)//无接受则进行发送部分服务
+    {
     switch (NowState)
     {
         case ModeA:
@@ -251,9 +254,32 @@ ES_Event_t RunRadioControlService(ES_Event_t ThisEvent) {
     default:
         break;
     }
+    }
+    else //有接受执行接收部分服务
+    {
+        ResponseStructContainer receivedData = loraModule->receiveMessage(sizeof(RadioMessage));
+        RadioMessage*receivedMsg = (RadioMessage*)receivedData.data;
+            Serial.print("Radio message received: 0x");
+            Serial.print(receivedMsg->Message, HEX);
+            Serial.print(", var1: 0x");
+            Serial.println(receivedMsg->var1, HEX);
+    }
     ReturnEvent.EventType = ES_NO_EVENT;
     ReturnEvent.EventParam = 0;
     return ReturnEvent;
 
 }
 
+bool CheckRadio(void)//available返回值大于零说明有接收，为0则无接收
+{
+    if (loraModule == nullptr) 
+    {
+      return false;
+    }
+    if((loraModule->available())>0)
+    {
+      return true;
+    }
+    else 
+      return false;
+}

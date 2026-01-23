@@ -306,7 +306,9 @@ typedef enum
 // This is the list of event checking functions
 #define EVENT_CHECK_LIST \
 CheckModeShiftButton, \
-CheckSendButton
+CheckSendButton,\
+CheckRadioMessages
+
 
 /****************************************************************************/
 

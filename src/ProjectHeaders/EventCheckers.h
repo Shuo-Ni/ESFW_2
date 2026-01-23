@@ -25,4 +25,5 @@
 // prototypes for event checkers
 bool CheckModeShiftButton(void);
 bool CheckSendButton(void);
+bool CheckRadioMessages(void);
 #endif /* EventCheckers_H */

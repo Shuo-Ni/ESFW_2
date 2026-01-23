@@ -96,3 +96,17 @@ bool CheckSendButton(void)
     
     return false;
 }
+bool CheckRadioMessages(void) 
+{
+// 调用RadioService的接收检查函数
+  if (CheckRadio()) 
+    {
+      ES_Event_t ThisEvent;
+        ThisEvent.EventType =ES_NO_EVENT;
+        ThisEvent.EventParam = 0;
+      PostRadioControlService(ThisEvent);
+    return true;
+    }
+  else return false;
+    
+}
